@@ -1,22 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
-using System.Threading.Tasks;
 using System.Threading;
 
 
 namespace WindowServer01
 {
-    
+
     public partial class Form1 : Form
     {
         public Form1()
@@ -34,8 +26,9 @@ namespace WindowServer01
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            tcpListener = new TcpListener(3000);
-            tcpListener.Start();
+            tcpListener = new TcpListener(3000); //리스너 생성
+            tcpListener.Start();    //리스너 시작
+            //현재의 ip 표시
             IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
             for(int i = 0; i < host.AddressList.Length; i++)
             {
@@ -49,14 +42,16 @@ namespace WindowServer01
 
         private void AcceptClient()
         {
-            while (true)
+            while (true)    //클라이언트 접속 수만큼 무한 생성
             {
-                TcpClient tcpClient = tcpListener.AcceptTcpClient();
+                TcpClient tcpClient = tcpListener.AcceptTcpClient();    //스레드 수만큼 AcceptTcpClient 요청 생성
 
                 if (tcpClient.Connected)
                 {
                     string str = ((IPEndPoint)tcpClient.Client.RemoteEndPoint).Address.ToString();
-                    listBox1.Items.Add(str);
+                    int pid = Thread.CurrentThread.GetHashCode();
+                    string strTemp = " ip: "+str + "  pid:" +pid.ToString() ;
+                    listBox1.Items.Add(strTemp);
                 }
 
                 EchoServer echoServer = new EchoServer(tcpClient);
@@ -73,7 +68,7 @@ namespace WindowServer01
         /// <param name="e"></param>
         private void StartBtn_Click(object sender, EventArgs e)
         {
-            Thread th = new Thread(new ThreadStart(AcceptClient));
+            Thread th = new Thread(new ThreadStart(AcceptClient));  //스레드 th 생성 및  AcceptClient 요청
             th.IsBackground = true;
             th.Start();
 
@@ -181,6 +176,8 @@ namespace WindowServer01
                     intValue = br.ReadInt32();
                     floatValue = br.ReadSingle();
                     strValue = br.ReadString();
+
+                    MessageBox.Show("가져온값:" + intValue.ToString() + "/" + floatValue.ToString() + "/" + strValue);
 
                     bw.Write(intValue);
                     bw.Write(floatValue);

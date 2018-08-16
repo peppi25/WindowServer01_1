@@ -47,12 +47,12 @@
             // 
             this.ipBox.Location = new System.Drawing.Point(117, 8);
             this.ipBox.Name = "ipBox";
-            this.ipBox.Size = new System.Drawing.Size(207, 25);
+            this.ipBox.Size = new System.Drawing.Size(276, 25);
             this.ipBox.TabIndex = 1;
             // 
             // StartBtn
             // 
-            this.StartBtn.Location = new System.Drawing.Point(356, 9);
+            this.StartBtn.Location = new System.Drawing.Point(436, 10);
             this.StartBtn.Name = "StartBtn";
             this.StartBtn.Size = new System.Drawing.Size(88, 23);
             this.StartBtn.TabIndex = 2;
